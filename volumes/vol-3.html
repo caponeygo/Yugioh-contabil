@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Flashcards Exame CFC 2026 — Vol. 3</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#16243A"><link rel="icon" href="icon.svg"><title>Flashcards Exame CFC 2026 — Vol. 3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
@@ -35,9 +35,9 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:Figtree,syste
 header h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 4px;letter-spacing:-.01em}
 header p{margin:0;color:var(--muted);font-size:.92rem}
 .bar{display:flex;gap:8px;align-items:center;margin:18px 0 12px;flex-wrap:wrap}
-select,button{font:inherit;color:inherit}
+select,button,input{font:inherit;color:inherit}input{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);min-height:44px}
 select{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet)}
-.btn{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);cursor:pointer;font-weight:500}
+.btn{min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);cursor:pointer;font-weight:500}
 .btn:hover{border-color:var(--muted)}
 .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .btn:disabled{opacity:.4;cursor:default}
@@ -52,7 +52,7 @@ select{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid var(--line)
 .tag{display:inline-block;font-size:.8rem;font-weight:600;color:var(--green);background:var(--green-soft);padding:3px 9px;border-radius:20px;margin-bottom:12px}
 .q{font-family:"Source Serif 4",Georgia,serif;font-size:1.12rem;line-height:1.6;margin:0 0 18px}
 .opts{display:grid;gap:8px}
-.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sheet);cursor:pointer;line-height:1.45}
+.opt{min-height:48px;display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sheet);cursor:pointer;line-height:1.45}
 .opt:hover:not(:disabled){border-color:var(--ink)}
 .opt b{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:.85rem}
 .opt:disabled{cursor:default}
@@ -78,6 +78,18 @@ footer{margin-top:22px;font-size:.82rem;color:var(--muted)}
     <p>50 questões inéditas de 4 alternativas, com disciplinas intercaladas (como na prova real) e conteúdo alinhado ao edital 2026.</p>
   </header>
 
+  <section id="conta" class="card" style="padding:14px 16px;margin-bottom:12px">
+    <form id="fLogin" style="display:grid;gap:8px">
+      <input id="nome" placeholder="Nome no ranking (só ao criar conta)" maxlength="30" autocomplete="nickname">
+      <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
+      <input id="senha" type="password" placeholder="Senha (mín. 6)" minlength="6" autocomplete="current-password" required>
+      <div class="nav" style="margin:0"><button class="btn primary" id="entrar">Entrar</button><button type="button" class="btn" id="criar">Criar conta</button></div>
+    </form>
+    <div id="logado" hidden><span id="quem"></span> <button class="btn" id="sair">Sair</button></div>
+    <div id="msg" style="font-size:.85rem;color:var(--muted);margin-top:6px"></div>
+    <button class="btn" id="verRank" style="margin-top:8px;width:100%">🏆 Ver ranking</button>
+    <ol id="rank" hidden style="margin:10px 0 0;padding-left:22px"></ol>
+  </section>
   <div class="bar">
     <select id="filtro" aria-label="Filtrar por disciplina"></select>
     <button class="btn" id="embaralhar">Embaralhar</button>
@@ -98,6 +110,7 @@ footer{margin-top:22px;font-size:.82rem;color:var(--muted)}
   <footer>Questões autorais no estilo e conteúdo programático do edital do Exame CFC 2026 (FGV). Seu progresso fica salvo neste navegador.</footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 // Ordem das questões já intercalada entre disciplinas, como na prova real (não agrupada por matéria)
 const Q = [
@@ -201,7 +214,7 @@ function render(){
     <div class="opts">${opts}</div>
     <div class="exp ${r!==undefined?"show":""}"><strong>${r===0?"Correto!":"Resposta: letra "+certa}</strong>${q.e}</div>
   </article>`;
-  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ st.resp[k]=+b.dataset.o; salvar(); render(); });
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ st.resp[k]=+b.dataset.o; salvar(); render(); sync(); });
 }
 
 $("filtro").onchange = e => { st.filtro=e.target.value; st.i=0; salvar(); render(); };
@@ -217,7 +230,41 @@ document.addEventListener("keydown", e=>{
   const n = "abcd".indexOf(e.key.toLowerCase());
   if(n>=0){ const b=document.querySelectorAll(".opt")[n]; if(b && !b.disabled) b.click(); }
 });
+// --- login + ranking (Supabase) ---
+const sb = supabase.createClient("https://gnxthcsyqwmpshlylagb.supabase.co","sb_publishable_ElrrR757FtNJpx8ukItZRw_TnJetzDA");
+let user = null;
+const msg = t => $("msg").textContent = t||"";
+async function sync(){
+  if(!user) return;
+  const r = Object.values(st.resp);
+  // ponytail: placar enviado pelo cliente (confiavel so entre amigos); validar no servidor se virar competicao seria
+  await sb.from("scores").upsert({user_id:user.id, nome:user.user_metadata.nome||user.email.split("@")[0],
+    acertos:r.filter(x=>x===0).length, respondidas:r.length, updated_at:new Date().toISOString()});
+}
+function sessao(s){
+  user = s?.user||null;
+  $("fLogin").hidden = !!user; $("logado").hidden = !user;
+  if(user){ $("quem").textContent = "Olá, "+(user.user_metadata.nome||user.email)+" "; sync(); }
+}
+sb.auth.getSession().then(({data})=>sessao(data.session));
+sb.auth.onAuthStateChange((_,s)=>sessao(s));
+$("fLogin").onsubmit = async e => { e.preventDefault(); msg("Entrando…");
+  const {error} = await sb.auth.signInWithPassword({email:$("email").value, password:$("senha").value});
+  msg(error?error.message:""); };
+$("criar").onclick = async () => { if(!$("fLogin").reportValidity()) return; msg("Criando…");
+  const {data,error} = await sb.auth.signUp({email:$("email").value, password:$("senha").value, options:{data:{nome:$("nome").value.trim()||undefined}}});
+  msg(error?error.message:(data.session?"":"Conta criada. Confirme pelo e-mail e entre.")); };
+$("sair").onclick = () => sb.auth.signOut();
+$("verRank").onclick = async () => {
+  const o = $("rank"); if(!o.hidden){ o.hidden=true; return; }
+  await sync();
+  const {data,error} = await sb.from("scores").select("nome,acertos,respondidas").order("acertos",{ascending:false}).order("respondidas").limit(20);
+  if(error) return msg(error.message);
+  o.innerHTML = data.map(r=>`<li><b>${r.nome.replace(/[<>&]/g,"")}</b> — ${r.acertos} acertos de ${r.respondidas}</li>`).join("") || "<li>Ninguém ainda.</li>";
+  o.hidden = false;
+};
 salvar(); render();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
 </script>
 </body>
 </html>
