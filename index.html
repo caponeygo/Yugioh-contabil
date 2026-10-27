@@ -3,112 +3,219 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#16243A"><link rel="icon" href="icon.svg"><title>Flashcards Exame CFC 2026 — Vol. 3</title>
+<meta name="theme-color" content="#0A0F1F">
+<meta name="color-scheme" content="dark light">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<title>Yugioh Contábil — Flashcards CFC 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Tokens: primitivos -> semânticos. Claro por padrão, escuro segue o sistema. */
 :root{
-  --paper:#F3F6F5; --sheet:#FFFFFF; --ink:#16243A; --muted:#5B6878;
-  --rule:#D5E3EC; --margin:#D9534F; --green:#23694F; --green-soft:#E3F1EA;
-  --red:#B3372E; --red-soft:#F8E4E2; --line:#DCE3E8;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  --gold:#E0B030; --gold-hi:#F6DB7A; --gold-lo:#9A6B00;
+  --bg:#EEF0F6; --surface:#FFFFFF; --inset:#F4F5FA; --ink:#12172B; --muted:#566079; --line:#D5D9E6;
+  --accent:#E0B030; --on-accent:#1A1405; --accent-text:#7A5500;
+  --ok:#0F7B5B; --ok-bg:#DDF3EA; --bad:#B02A63; --bad-bg:#FADCE8;
+  --frame:linear-gradient(135deg,var(--gold-hi),var(--gold-lo) 50%,var(--gold-hi));
+  --shadow:0 1px 2px rgba(18,23,43,.08),0 8px 24px rgba(18,23,43,.08);
+  --font-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --font-body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:14px; --dock-h:76px;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --paper:#0F1720; --sheet:#17222E; --ink:#E6ECF2; --muted:#9AA8B6;
-    --rule:#223242; --margin:#8C3A37; --green:#5FC195; --green-soft:#16332A;
-    --red:#EF7D73; --red-soft:#3A1E1C; --line:#2A3847;
+    --bg:#0A0F1F; --surface:#121A33; --inset:#0D1428; --ink:#ECEFF8; --muted:#9BA6C2; --line:#26315A;
+    --accent-text:#E8BE4A; --ok:#3DD6A3; --ok-bg:#0F3028; --bad:#FF7AAE; --bad-bg:#3A1428;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
   }
 }
-:root[data-theme="dark"]{
-  --paper:#0F1720; --sheet:#17222E; --ink:#E6ECF2; --muted:#9AA8B6;
-  --rule:#223242; --margin:#8C3A37; --green:#5FC195; --green-soft:#16332A;
-  --red:#EF7D73; --red-soft:#3A1E1C; --line:#2A3847;
-}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}
-.wrap{max-width:680px;margin:0 auto;padding:20px 16px 40px}
-header h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 4px;letter-spacing:-.01em}
-header p{margin:0;color:var(--muted);font-size:.92rem}
-.bar{display:flex;gap:8px;align-items:center;margin:18px 0 12px;flex-wrap:wrap}
-select,button,input{font:inherit;color:inherit}input{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);min-height:44px}
-select{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet)}
-.btn{min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);cursor:pointer;font-weight:500}
-.btn:hover{border-color:var(--muted)}
-.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.btn:disabled{opacity:.4;cursor:default}
-:focus-visible{outline:3px solid var(--green);outline-offset:2px}
-.progress{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);margin-bottom:8px}
-.track{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:14px}
-.track i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
-.card{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:22px 20px 20px 44px;
-  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,var(--rule) 31px,var(--rule) 32px);
-  background-position:0 58px}
-.card::before{content:"";position:absolute;top:0;bottom:0;left:28px;width:2px;background:var(--margin);opacity:.7}
-.tag{display:inline-block;font-size:.8rem;font-weight:600;color:var(--green);background:var(--green-soft);padding:3px 9px;border-radius:20px;margin-bottom:12px}
-.q{font-family:"Source Serif 4",Georgia,serif;font-size:1.12rem;line-height:1.6;margin:0 0 18px}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--font-body);
+  padding-bottom:calc(var(--dock-h) + env(safe-area-inset-bottom,0px));min-height:100dvh}
+button,select,input{font:inherit;color:inherit}
+button{touch-action:manipulation}
+:focus-visible{outline:3px solid var(--accent-text);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;background:var(--accent);color:var(--on-accent);padding:8px 12px;border-radius:8px;z-index:50}
+.skip:focus{top:8px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+/* Topo */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:640px;margin:0 auto;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 16px 10px}
+.brand h1{font:700 1.35rem/1.1 var(--font-display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.brand p{margin:2px 0 0;font-size:.85rem;color:var(--muted)}
+.acts{display:flex;gap:8px;align-items:center}
+.ico,.chip{min-height:44px;border:1px solid var(--line);background:var(--surface);border-radius:999px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.ico{width:44px}
+.chip{padding:0 14px 0 6px;font-weight:600;font-size:.9rem;max-width:170px}
+.chip .av{width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:700;flex:none}
+.chip span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* Placar */
+.stats{display:flex;align-items:baseline;gap:16px;margin:6px 0 8px;font-size:.9rem;color:var(--muted)}
+.stats b{font:700 1.25rem var(--font-display);color:var(--ink);margin-right:4px;font-variant-numeric:tabular-nums}
+.stats .ok b{color:var(--ok)} .stats .bad b{color:var(--bad)}
+.stats .pct{margin-left:auto}
+.track{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:14px}
+.track i{display:block;height:100%;width:0;background:var(--frame);transition:width .3s}
+
+/* Filtros */
+.filters{display:flex;gap:8px;margin-bottom:14px}
+select{flex:1;min-width:0;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+
+/* Carta */
+.card{background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--frame) border-box;
+  border:3px solid transparent;border-radius:var(--r);padding:14px;box-shadow:var(--shadow);transition:box-shadow .25s}
+.card.hit{box-shadow:0 0 0 2px var(--ok),var(--shadow)}
+.card.miss{box-shadow:0 0 0 2px var(--bad),var(--shadow)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.attr{font:600 .85rem var(--font-body);color:var(--accent-text);background:var(--inset);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+.res{font-weight:600;font-size:.85rem}
+.res.ok{color:var(--ok)} .res.bad{color:var(--bad)}
+.q{background:var(--inset);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0 0 12px;font-size:1.05rem;line-height:1.6;text-wrap:pretty}
 .opts{display:grid;gap:8px}
-.opt{min-height:48px;display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sheet);cursor:pointer;line-height:1.45}
-.opt:hover:not(:disabled){border-color:var(--ink)}
-.opt b{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:.85rem}
-.opt:disabled{cursor:default}
-.opt.right{border-color:var(--green);background:var(--green-soft)}
-.opt.right b{background:var(--green);color:var(--sheet);border-color:var(--green)}
-.opt.wrong{border-color:var(--red);background:var(--red-soft)}
-.opt.wrong b{background:var(--red);color:var(--sheet);border-color:var(--red)}
-.exp{margin-top:16px;padding:14px;border-left:3px solid var(--green);background:var(--paper);border-radius:0 8px 8px 0;font-size:.95rem;display:none}
-.exp.show{display:block}
-.exp strong{display:block;margin-bottom:4px}
-.nav{display:flex;gap:8px;margin-top:14px}
-.nav .btn{flex:1}
-.done{text-align:center;padding:32px 20px}
-.done .big{font-family:"Source Serif 4",Georgia,serif;font-size:3rem;margin:0}
-footer{margin-top:22px;font-size:.82rem;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;min-height:52px;padding:12px;
+  border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--accent-text)}
+.opt:active:not(:disabled){transform:scale(.985)}
+.opt b{flex:0 0 28px;height:28px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:.85rem;background:var(--inset)}
+.opt:disabled{cursor:default;opacity:1}
+.opt.dim{opacity:.6}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.right b{background:var(--ok);border-color:var(--ok);color:var(--bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.wrong b{background:var(--bad);border-color:var(--bad);color:var(--bg)}
+.exp{margin-top:12px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--inset);border-radius:0 10px 10px 0;font-size:.95rem}
+.exp strong{display:block;margin-bottom:2px}
+.vazio{text-align:center;padding:40px 16px;color:var(--muted)}
+
+/* Barra inferior (zona do polegar) */
+.dock{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.dock div{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+#pos{font-size:.85rem;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.btn{min-height:52px;padding:0 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;font-weight:600}
+.btn:hover:not(:disabled){border-color:var(--accent-text)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* Diálogos */
+dialog{width:min(440px,calc(100% - 24px));max-height:calc(100dvh - 24px);border:1px solid var(--line);border-radius:18px;padding:0;
+  background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(5,8,18,.6)}
+dialog>div{padding:18px}
+dialog h2{font:700 1.2rem var(--font-display);margin:0 0 12px}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.dh h2{margin:0}
+.x{width:44px;height:44px;margin:-8px -8px -8px 0;border:0;background:none;cursor:pointer;border-radius:50%;display:grid;place-items:center}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--inset);border-radius:12px;margin-bottom:14px}
+.tabs button{min-height:40px;border:0;border-radius:9px;background:none;cursor:pointer;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.f{display:grid;gap:4px;margin-bottom:12px}
+.f label{font-size:.88rem;font-weight:600}
+.f input{min-height:48px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--inset);font-size:1rem}
+.f small{color:var(--muted)}
+.msg{min-height:1.4em;font-size:.9rem;color:var(--bad);margin:0 0 10px}
+.msg.info{color:var(--muted)}
+.full{width:100%}
+.stack{display:grid;gap:8px}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px 12px;background:var(--inset);border:1px solid var(--line);border-radius:12px}
+.rank li.me{border-color:var(--accent-text)}
+.rank .p{font:700 1rem var(--font-display);color:var(--muted);text-align:center}
+.rank li:nth-child(-n+3) .p{color:var(--accent-text)}
+.rank .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.rank .s{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.rank .s b{color:var(--ink)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (min-width:700px){.card{padding:20px}.q{padding:18px;font-size:1.1rem}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Exame de Suficiência CFC 2026 — Vol. 3</h1>
-    <p>50 questões inéditas de 4 alternativas, com disciplinas intercaladas (como na prova real) e conteúdo alinhado ao edital 2026.</p>
-  </header>
+<a class="skip" href="#area">Ir para a questão</a>
 
-  <section id="conta" class="card" style="padding:14px 16px;margin-bottom:12px">
-    <form id="fLogin" style="display:grid;gap:8px">
-      <input id="nome" placeholder="Nome no ranking (só ao criar conta)" maxlength="30" autocomplete="nickname">
-      <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
-      <input id="senha" type="password" placeholder="Senha (mín. 6)" minlength="6" autocomplete="current-password" required>
-      <div class="nav" style="margin:0"><button class="btn primary" id="entrar">Entrar</button><button type="button" class="btn" id="criar">Criar conta</button></div>
-    </form>
-    <div id="logado" hidden><span id="quem"></span> <button class="btn" id="sair">Sair</button></div>
-    <div id="msg" style="font-size:.85rem;color:var(--muted);margin-top:6px"></div>
-    <button class="btn" id="verRank" style="margin-top:8px;width:100%">🏆 Ver ranking</button>
-    <ol id="rank" hidden style="margin:10px 0 0;padding-left:22px"></ol>
-  </section>
-  <div class="bar">
-    <select id="filtro" aria-label="Filtrar por disciplina"></select>
-    <button class="btn" id="embaralhar">Embaralhar</button>
-    <button class="btn" id="erradas">Revisar erradas</button>
-    <button class="btn" id="zerar">Zerar</button>
+<header class="top">
+  <div class="brand">
+    <h1>Yugioh Contábil</h1>
+    <p id="sub"></p>
   </div>
+  <div class="acts">
+    <button class="ico" id="btnRank" aria-label="Ver ranking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></button>
+    <button class="chip" id="btnConta"><span class="av" id="av"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span id="contaTxt">Entrar</span></button>
+  </div>
+</header>
 
-  <div class="progress"><span id="pos"></span><span id="placar"></span></div>
+<main class="wrap">
+  <div class="stats" aria-live="polite">
+    <span class="ok"><b id="nOk">0</b>acertos</span>
+    <span class="bad"><b id="nErr">0</b>erros</span>
+    <span class="pct" id="pct"></span>
+  </div>
   <div class="track"><i id="barra"></i></div>
 
-  <div id="area"></div>
-
-  <div class="nav">
-    <button class="btn" id="ant">Anterior</button>
-    <button class="btn primary" id="prox">Próxima</button>
+  <div class="filters">
+    <label class="sr" for="filtro">Disciplina</label>
+    <select id="filtro"></select>
+    <button class="ico" id="btnOpc" aria-label="Mais opções"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
   </div>
 
-  <footer>Questões autorais no estilo e conteúdo programático do edital do Exame CFC 2026 (FGV). Seu progresso fica salvo neste navegador.</footer>
-</div>
+  <div id="area" tabindex="-1"></div>
+</main>
+
+<nav class="dock" aria-label="Navegar entre questões">
+  <div>
+    <button class="btn" id="ant">Anterior</button>
+    <span id="pos" aria-live="polite"></span>
+    <button class="btn primary" id="prox">Próxima</button>
+  </div>
+</nav>
+
+<dialog id="dConta" aria-labelledby="tConta"><div>
+  <div class="dh"><h2 id="tConta">Sua conta</h2><button class="x" data-close aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div id="vSai">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabEntrar" aria-selected="true">Entrar</button>
+      <button role="tab" id="tabCriar" aria-selected="false">Criar conta</button>
+    </div>
+    <form id="fLogin" novalidate>
+      <div class="f" id="gNome" hidden><label for="nome">Nome no ranking</label><input id="nome" maxlength="30" autocomplete="nickname"></div>
+      <div class="f"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" inputmode="email" required></div>
+      <div class="f"><label for="senha">Senha</label><input id="senha" type="password" minlength="6" autocomplete="current-password" required><small id="dicaSenha" hidden>Mínimo de 6 caracteres.</small></div>
+      <p class="msg" id="msg" role="alert"></p>
+      <button class="btn primary full" id="enviar">Entrar</button>
+    </form>
+  </div>
+  <div id="vEntrou" hidden class="stack">
+    <p id="quem" style="margin:0"></p>
+    <p id="meuPlacar" style="margin:0;color:var(--muted)"></p>
+    <button class="btn full" id="verRank2">Ver ranking</button>
+    <button class="btn danger full" id="sair">Sair</button>
+  </div>
+</div></dialog>
+
+<dialog id="dRank" aria-labelledby="tRank"><div>
+  <div class="dh"><h2 id="tRank">Ranking</h2><button class="x" data-close aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <p class="msg info" id="rankMsg"></p>
+  <ol class="rank" id="rank"></ol>
+  <button class="btn primary full" id="rankEntrar" style="margin-top:12px" hidden>Entrar para aparecer no ranking</button>
+</div></dialog>
+
+<dialog id="dOpc" aria-labelledby="tOpc"><div>
+  <div class="dh"><h2 id="tOpc">Opções</h2><button class="x" data-close aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="stack">
+    <button class="btn full" id="embaralhar">Embaralhar questões e alternativas</button>
+    <button class="btn full" id="erradas">Revisar erradas</button>
+    <button class="btn danger full" id="zerar">Zerar progresso</button>
+  </div>
+</div></dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -169,11 +276,12 @@ const KEY = "cfc-flash-v3-2026";
 let st = {ordem:[...Q.keys()], i:0, resp:{}, filtro:"Todas", ops:{}};
 try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.ordem) st = Object.assign(st,s); }catch(e){}
 const salvar = ()=>{ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
-
 const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 Q.forEach((_,k)=>{ if(!st.ops[k]) st.ops[k]=shuffle([0,1,2,3]); });
-
 const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+$("sub").textContent = `CFC 2026 · Vol. 3 · ${Q.length} questões`;
 const disc = ["Todas", ...new Set(Q.map(q=>q.d))];
 $("filtro").innerHTML = disc.map(d=>`<option${d===st.filtro?" selected":""}>${d}</option>`).join("");
 
@@ -184,85 +292,144 @@ function lista(){
   return l;
 }
 
-function render(){
+function render(foco){
   const l = lista();
   if(st.i >= l.length) st.i = Math.max(0,l.length-1);
   const total = l.length;
   const resp = l.filter(k=>st.resp[k]!==undefined);
   const acertos = resp.filter(k=>st.resp[k]===0).length;
-  $("pos").textContent = total ? `Questão ${st.i+1} de ${total}` : "Nenhuma questão";
-  $("placar").textContent = `${acertos} acertos · ${resp.length-acertos} erros`;
+  $("nOk").textContent = acertos;
+  $("nErr").textContent = resp.length-acertos;
+  $("pct").textContent = resp.length ? Math.round(acertos/resp.length*100)+"% de acerto" : "";
+  $("pos").textContent = total ? `${modoErradas?"Erradas · ":""}${st.i+1} de ${total}` : "—";
   $("barra").style.width = total ? (resp.length/total*100)+"%" : "0";
-  $("erradas").textContent = modoErradas ? "Ver todas" : "Revisar erradas";
+  $("erradas").textContent = modoErradas ? "Voltar para todas as questões" : "Revisar erradas";
   $("ant").disabled = st.i===0;
   $("prox").disabled = !total || st.i>=total-1;
 
   if(!total){
-    $("area").innerHTML = `<div class="card done"><p class="big">✓</p><p>${modoErradas?"Nenhuma questão errada neste filtro.":"Sem questões neste filtro."}</p></div>`;
+    $("area").innerHTML = `<div class="vazio"><p><strong>${modoErradas?"Nenhuma questão errada aqui.":"Nenhuma questão neste filtro."}</strong></p><p>${modoErradas?"Responda mais questões ou volte para todas.":"Escolha outra disciplina."}</p></div>`;
     return;
   }
-  const k = l[st.i], q = Q[k], r = st.resp[k];
+  const k = l[st.i], q = Q[k], r = st.resp[k], feito = r!==undefined;
   const opts = st.ops[k].map((oi,pos)=>{
-    let cls = "";
-    if(r!==undefined){ if(oi===0) cls="right"; else if(oi===r) cls="wrong"; }
-    return `<button class="opt ${cls}" data-o="${oi}" ${r!==undefined?"disabled":""}><b>${LETRAS[pos]}</b><span>${q.o[oi]}</span></button>`;
+    let cls="", sym=LETRAS[pos];
+    if(feito){ if(oi===0){cls="right";sym="✓";} else if(oi===r){cls="wrong";sym="✗";} else cls="dim"; }
+    return `<button class="opt ${cls}" data-o="${oi}" ${feito?"disabled":""}><b aria-hidden="true">${sym}</b><span><span class="sr">Alternativa ${LETRAS[pos]}: </span>${q.o[oi]}</span></button>`;
   }).join("");
   const certa = LETRAS[st.ops[k].indexOf(0)];
-  $("area").innerHTML = `<article class="card">
-    <span class="tag">${q.d}</span>
+  $("area").innerHTML = `<article class="card ${feito?(r===0?"hit":"miss"):""}">
+    <div class="card-head"><span class="attr">${q.d}</span>${feito?`<span class="res ${r===0?"ok":"bad"}">${r===0?"Acertou":"Errou"}</span>`:""}</div>
     <p class="q">${q.q}</p>
-    <div class="opts">${opts}</div>
-    <div class="exp ${r!==undefined?"show":""}"><strong>${r===0?"Correto!":"Resposta: letra "+certa}</strong>${q.e}</div>
+    <div class="opts" role="group" aria-label="Alternativas">${opts}</div>
+    ${feito?`<div class="exp" id="exp" tabindex="-1" role="status"><strong>${r===0?"Correto!":"Resposta certa: letra "+certa}</strong>${q.e}</div>`:""}
   </article>`;
-  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ st.resp[k]=+b.dataset.o; salvar(); render(); sync(); });
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ st.resp[k]=+b.dataset.o; salvar(); render(true); sync(); });
+  if(foco){ const e=$("exp"); if(e){ e.scrollIntoView({block:"nearest",behavior:"smooth"}); e.focus({preventScroll:true}); } }
 }
 
+const topo = () => window.scrollTo({top:0});
 $("filtro").onchange = e => { st.filtro=e.target.value; st.i=0; salvar(); render(); };
-$("ant").onclick = () => { st.i--; salvar(); render(); window.scrollTo({top:0}); };
-$("prox").onclick = () => { st.i++; salvar(); render(); window.scrollTo({top:0}); };
-$("embaralhar").onclick = () => { st.ordem=shuffle(st.ordem); Q.forEach((_,k)=>st.ops[k]=shuffle([0,1,2,3])); st.i=0; salvar(); render(); };
-$("erradas").onclick = () => { modoErradas=!modoErradas; st.i=0; render(); };
-$("zerar").onclick = () => { if(confirm("Apagar todas as respostas?")){ st.resp={}; st.i=0; modoErradas=false; salvar(); render(); } };
+$("ant").onclick = () => { st.i--; salvar(); render(); topo(); };
+$("prox").onclick = () => { st.i++; salvar(); render(); topo(); };
+$("embaralhar").onclick = () => { st.ordem=shuffle(st.ordem); Q.forEach((_,k)=>st.ops[k]=shuffle([0,1,2,3])); st.i=0; salvar(); render(); $("dOpc").close(); topo(); };
+$("erradas").onclick = () => { modoErradas=!modoErradas; st.i=0; render(); $("dOpc").close(); topo(); };
+$("zerar").onclick = () => { if(confirm("Apagar todas as respostas deste aparelho?")){ st.resp={}; st.i=0; modoErradas=false; salvar(); render(); sync(); $("dOpc").close(); } };
+
+// Diálogos nativos: Esc fecha, foco volta ao gatilho, clique fora fecha
+document.querySelectorAll("dialog").forEach(d=>{
+  d.addEventListener("click", e=>{ if(e.target===d) d.close(); });
+  d.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>d.close());
+});
+$("btnOpc").onclick = () => $("dOpc").showModal();
+
 document.addEventListener("keydown", e=>{
-  if(e.target.tagName==="SELECT") return;
+  if(e.ctrlKey||e.metaKey||e.altKey) return;
+  if(/^(SELECT|INPUT|TEXTAREA)$/.test(e.target.tagName) || document.querySelector("dialog[open]")) return;
   if(e.key==="ArrowRight" && !$("prox").disabled) $("prox").click();
   if(e.key==="ArrowLeft" && !$("ant").disabled) $("ant").click();
   const n = "abcd".indexOf(e.key.toLowerCase());
-  if(n>=0){ const b=document.querySelectorAll(".opt")[n]; if(b && !b.disabled) b.click(); }
+  if(n>=0 && e.key.length===1){ const b=document.querySelectorAll(".opt")[n]; if(b && !b.disabled) b.click(); }
 });
+
 // --- login + ranking (Supabase) ---
 const sb = supabase.createClient("https://gnxthcsyqwmpshlylagb.supabase.co","sb_publishable_ElrrR757FtNJpx8ukItZRw_TnJetzDA");
-let user = null;
-const msg = t => $("msg").textContent = t||"";
+let user = null, modo = "entrar";
+const nomeDe = u => u.user_metadata?.nome || u.email.split("@")[0];
+const msg = (t,info) => { $("msg").textContent = t||""; $("msg").className = "msg"+(info?" info":""); };
+const ERROS = {
+  "Invalid login credentials":"E-mail ou senha incorretos.",
+  "Email not confirmed":"Confirme seu e-mail antes de entrar. Veja a caixa de entrada.",
+  "User already registered":"Este e-mail já tem conta. Use a aba Entrar.",
+  "Password should be at least 6 characters":"A senha precisa ter ao menos 6 caracteres."
+};
+const traduz = m => ERROS[m] || (/rate limit/i.test(m) ? "Muitas tentativas. Aguarde um pouco." : "Não foi possível concluir. Tente de novo.");
+
+function placar(){ const r=Object.values(st.resp); return {acertos:r.filter(x=>x===0).length, respondidas:r.length}; }
 async function sync(){
   if(!user) return;
-  const r = Object.values(st.resp);
-  // ponytail: placar enviado pelo cliente (confiavel so entre amigos); validar no servidor se virar competicao seria
-  await sb.from("scores").upsert({user_id:user.id, nome:user.user_metadata.nome||user.email.split("@")[0],
-    acertos:r.filter(x=>x===0).length, respondidas:r.length, updated_at:new Date().toISOString()});
+  // ponytail: placar enviado pelo cliente (confiável só entre amigos); validar no servidor se virar competição séria
+  await sb.from("scores").upsert({user_id:user.id, nome:nomeDe(user), ...placar(), updated_at:new Date().toISOString()});
 }
 function sessao(s){
   user = s?.user||null;
-  $("fLogin").hidden = !!user; $("logado").hidden = !user;
-  if(user){ $("quem").textContent = "Olá, "+(user.user_metadata.nome||user.email)+" "; sync(); }
+  $("vSai").hidden = !!user; $("vEntrou").hidden = !user;
+  $("tConta").textContent = user ? "Sua conta" : "Entrar";
+  if(user){
+    $("contaTxt").textContent = nomeDe(user);
+    $("av").textContent = nomeDe(user)[0].toUpperCase();
+    $("quem").innerHTML = `Conectado como <strong>${esc(nomeDe(user))}</strong><br><small style="color:var(--muted)">${esc(user.email)}</small>`;
+    const p = placar(); $("meuPlacar").textContent = `${p.acertos} acertos em ${p.respondidas} respondidas`;
+    sync();
+  } else {
+    $("contaTxt").textContent = "Entrar";
+    $("av").innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+  }
 }
 sb.auth.getSession().then(({data})=>sessao(data.session));
 sb.auth.onAuthStateChange((_,s)=>sessao(s));
-$("fLogin").onsubmit = async e => { e.preventDefault(); msg("Entrando…");
-  const {error} = await sb.auth.signInWithPassword({email:$("email").value, password:$("senha").value});
-  msg(error?error.message:""); };
-$("criar").onclick = async () => { if(!$("fLogin").reportValidity()) return; msg("Criando…");
-  const {data,error} = await sb.auth.signUp({email:$("email").value, password:$("senha").value, options:{data:{nome:$("nome").value.trim()||undefined}}});
-  msg(error?error.message:(data.session?"":"Conta criada. Confirme pelo e-mail e entre.")); };
-$("sair").onclick = () => sb.auth.signOut();
-$("verRank").onclick = async () => {
-  const o = $("rank"); if(!o.hidden){ o.hidden=true; return; }
-  await sync();
-  const {data,error} = await sb.from("scores").select("nome,acertos,respondidas").order("acertos",{ascending:false}).order("respondidas").limit(20);
-  if(error) return msg(error.message);
-  o.innerHTML = data.map(r=>`<li><b>${r.nome.replace(/[<>&]/g,"")}</b> — ${r.acertos} acertos de ${r.respondidas}</li>`).join("") || "<li>Ninguém ainda.</li>";
-  o.hidden = false;
+
+function setModo(m){
+  modo = m; const criar = m==="criar";
+  $("tabEntrar").setAttribute("aria-selected", !criar); $("tabCriar").setAttribute("aria-selected", criar);
+  $("gNome").hidden = !criar; $("dicaSenha").hidden = !criar;
+  $("senha").autocomplete = criar ? "new-password" : "current-password";
+  $("enviar").textContent = criar ? "Criar conta" : "Entrar";
+  msg("");
+}
+$("tabEntrar").onclick = () => setModo("entrar");
+$("tabCriar").onclick = () => setModo("criar");
+$("btnConta").onclick = () => { setModo("entrar"); $("dConta").showModal(); };
+
+$("fLogin").onsubmit = async e => {
+  e.preventDefault();
+  if(!$("email").validity.valid) return msg("Digite um e-mail válido.");
+  if($("senha").value.length<6) return msg("A senha precisa ter ao menos 6 caracteres.");
+  $("enviar").disabled = true; msg(modo==="criar"?"Criando conta…":"Entrando…", true);
+  const email=$("email").value.trim(), password=$("senha").value;
+  const {data,error} = modo==="criar"
+    ? await sb.auth.signUp({email,password,options:{data:{nome:$("nome").value.trim()||undefined}}})
+    : await sb.auth.signInWithPassword({email,password});
+  $("enviar").disabled = false;
+  if(error) return msg(traduz(error.message));
+  if(modo==="criar" && !data.session) return msg("Conta criada. Confirme pelo link enviado ao seu e-mail e depois entre.", true);
+  msg(""); $("senha").value=""; $("dConta").close();
 };
+$("sair").onclick = async () => { await sb.auth.signOut(); $("dConta").close(); };
+
+async function abrirRank(){
+  const l = $("rank"); l.innerHTML=""; $("rankMsg").textContent="Carregando…"; $("rankEntrar").hidden = !!user;
+  if(!$("dRank").open) $("dRank").showModal();
+  await sync();
+  const {data,error} = await sb.from("scores").select("user_id,nome,acertos,respondidas").order("acertos",{ascending:false}).order("respondidas").limit(20);
+  if(error){ $("rankMsg").textContent="Não foi possível carregar o ranking. Tente de novo."; return; }
+  $("rankMsg").textContent = data.length ? "" : "Ninguém no ranking ainda. Responda uma questão logado para ser o primeiro.";
+  l.innerHTML = data.map((r,i)=>`<li class="${user&&r.user_id===user.id?"me":""}"><span class="p">${i+1}º</span><span class="n">${esc(r.nome)}</span><span class="s"><b>${r.acertos}</b> de ${r.respondidas}</span></li>`).join("");
+}
+$("btnRank").onclick = abrirRank;
+$("verRank2").onclick = () => { $("dConta").close(); abrirRank(); };
+$("rankEntrar").onclick = () => { $("dRank").close(); $("btnConta").click(); };
+
 salvar(); render();
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
 </script>
