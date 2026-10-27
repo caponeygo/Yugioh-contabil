@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Flashcards Exame CFC 2026 — Vol. 3</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#16243A"><link rel="icon" href="icon.svg"><title>Flashcards Exame CFC 2026 — Vol. 3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
@@ -37,7 +37,7 @@ header p{margin:0;color:var(--muted);font-size:.92rem}
 .bar{display:flex;gap:8px;align-items:center;margin:18px 0 12px;flex-wrap:wrap}
 select,button{font:inherit;color:inherit}
 select{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet)}
-.btn{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);cursor:pointer;font-weight:500}
+.btn{min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);cursor:pointer;font-weight:500}
 .btn:hover{border-color:var(--muted)}
 .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .btn:disabled{opacity:.4;cursor:default}
@@ -52,7 +52,7 @@ select{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid var(--line)
 .tag{display:inline-block;font-size:.8rem;font-weight:600;color:var(--green);background:var(--green-soft);padding:3px 9px;border-radius:20px;margin-bottom:12px}
 .q{font-family:"Source Serif 4",Georgia,serif;font-size:1.12rem;line-height:1.6;margin:0 0 18px}
 .opts{display:grid;gap:8px}
-.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sheet);cursor:pointer;line-height:1.45}
+.opt{min-height:48px;display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sheet);cursor:pointer;line-height:1.45}
 .opt:hover:not(:disabled){border-color:var(--ink)}
 .opt b{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:.85rem}
 .opt:disabled{cursor:default}
@@ -218,6 +218,7 @@ document.addEventListener("keydown", e=>{
   if(n>=0){ const b=document.querySelectorAll(".opt")[n]; if(b && !b.disabled) b.click(); }
 });
 salvar(); render();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
 </script>
 </body>
 </html>
