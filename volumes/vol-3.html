@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flashcards Exame CFC 2026 — Vol. 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F6F5; --sheet:#FFFFFF; --ink:#16243A; --muted:#5B6878;
+  --rule:#D5E3EC; --margin:#D9534F; --green:#23694F; --green-soft:#E3F1EA;
+  --red:#B3372E; --red-soft:#F8E4E2; --line:#DCE3E8;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1720; --sheet:#17222E; --ink:#E6ECF2; --muted:#9AA8B6;
+    --rule:#223242; --margin:#8C3A37; --green:#5FC195; --green-soft:#16332A;
+    --red:#EF7D73; --red-soft:#3A1E1C; --line:#2A3847;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1720; --sheet:#17222E; --ink:#E6ECF2; --muted:#9AA8B6;
+  --rule:#223242; --margin:#8C3A37; --green:#5FC195; --green-soft:#16332A;
+  --red:#EF7D73; --red-soft:#3A1E1C; --line:#2A3847;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 40px}
+header h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 4px;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);font-size:.92rem}
+.bar{display:flex;gap:8px;align-items:center;margin:18px 0 12px;flex-wrap:wrap}
+select,button{font:inherit;color:inherit}
+select{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet)}
+.btn{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.progress{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);margin-bottom:8px}
+.track{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:14px}
+.track i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+.card{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:22px 20px 20px 44px;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,var(--rule) 31px,var(--rule) 32px);
+  background-position:0 58px}
+.card::before{content:"";position:absolute;top:0;bottom:0;left:28px;width:2px;background:var(--margin);opacity:.7}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;color:var(--green);background:var(--green-soft);padding:3px 9px;border-radius:20px;margin-bottom:12px}
+.q{font-family:"Source Serif 4",Georgia,serif;font-size:1.12rem;line-height:1.6;margin:0 0 18px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sheet);cursor:pointer;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt b{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:.85rem}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.right b{background:var(--green);color:var(--sheet);border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong b{background:var(--red);color:var(--sheet);border-color:var(--red)}
+.exp{margin-top:16px;padding:14px;border-left:3px solid var(--green);background:var(--paper);border-radius:0 8px 8px 0;font-size:.95rem;display:none}
+.exp.show{display:block}
+.exp strong{display:block;margin-bottom:4px}
+.nav{display:flex;gap:8px;margin-top:14px}
+.nav .btn{flex:1}
+.done{text-align:center;padding:32px 20px}
+.done .big{font-family:"Source Serif 4",Georgia,serif;font-size:3rem;margin:0}
+footer{margin-top:22px;font-size:.82rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Exame de Suficiência CFC 2026 — Vol. 3</h1>
+    <p>50 questões inéditas de 4 alternativas, com disciplinas intercaladas (como na prova real) e conteúdo alinhado ao edital 2026.</p>
+  </header>
+
+  <div class="bar">
+    <select id="filtro" aria-label="Filtrar por disciplina"></select>
+    <button class="btn" id="embaralhar">Embaralhar</button>
+    <button class="btn" id="erradas">Revisar erradas</button>
+    <button class="btn" id="zerar">Zerar</button>
+  </div>
+
+  <div class="progress"><span id="pos"></span><span id="placar"></span></div>
+  <div class="track"><i id="barra"></i></div>
+
+  <div id="area"></div>
+
+  <div class="nav">
+    <button class="btn" id="ant">Anterior</button>
+    <button class="btn primary" id="prox">Próxima</button>
+  </div>
+
+  <footer>Questões autorais no estilo e conteúdo programático do edital do Exame CFC 2026 (FGV). Seu progresso fica salvo neste navegador.</footer>
+</div>
+
+<script>
+// Ordem das questões já intercalada entre disciplinas, como na prova real (não agrupada por matéria)
+const Q = [
+{d:"Contabilidade Geral",q:"Uma empresa recebeu um imóvel em doação de sócio, sem contrapartida, avaliado a valor justo de R$ 300.000,00. O lançamento contábil correto é:",o:["D – Imóveis; C – Reserva de capital, por R$ 300.000,00","D – Imóveis; C – Receita de doações, por R$ 300.000,00","D – Imóveis; C – Capital Social, por R$ 300.000,00","D – Despesas antecipadas; C – Imóveis, por R$ 300.000,00"],e:"Doações recebidas de sócios, sem contrapartida em ações, são registradas como reserva de capital no Patrimônio Líquido, e não como receita."},
+{d:"Legislação e Ética Profissional",q:"Conforme o Código de Ética Profissional do Contador, ao ser substituído por outro profissional em determinado trabalho, o contador anterior deve:",o:["Fornecer ao substituto as informações necessárias à continuidade dos trabalhos, respeitado o sigilo profissional","Recusar-se a repassar qualquer informação ao novo profissional","Impedir a substituição até receber a integralidade dos honorários devidos","Comunicar o fato apenas ao CFC, sem contato com o novo profissional"],e:"Há dever de colaboração profissional na sucessão de trabalhos, com o repasse de informações necessárias, sempre resguardado o sigilo quanto a terceiros."},
+{d:"Contabilidade de Custos",q:"Uma indústria produz um único produto. Custos variáveis unitários: R$ 25,00; custos fixos totais: R$ 150.000,00; preço de venda: R$ 55,00. Para obter lucro de R$ 60.000,00, a quantidade necessária é:",o:["7.000 unidades","5.000 unidades","4.000 unidades","6.000 unidades"],e:"Q = (Custo fixo + Lucro desejado) ÷ MC unitária = (150.000 + 60.000) ÷ 30 = 7.000 unidades."},
+{d:"Matemática Financeira e Estatística",q:"Um empréstimo de R$ 15.000,00 é contratado a juros simples de 2,5% ao mês, por 6 meses. O total de juros pagos é:",o:["R$ 2.250,00","R$ 2.500,00","R$ 2.000,00","R$ 1.875,00"],e:"J = C × i × n = 15.000 × 0,025 × 6 = R$ 2.250,00."},
+{d:"Contabilidade Aplicada ao Setor Público",q:"A receita orçamentária classificada quanto à categoria econômica em 'receitas de capital' inclui, entre outras, a proveniente de:",o:["Operações de crédito e alienação de bens","Impostos, taxas e contribuições de melhoria","Transferências correntes recebidas de outros entes","Multas e juros de mora sobre tributos"],e:"Receitas de capital incluem operações de crédito, alienação de bens, amortização de empréstimos e transferências de capital; impostos e taxas são receitas correntes."},
+{d:"Teoria da Contabilidade",q:"A abordagem da essência sobre a forma, adotada implicitamente pela Estrutura Conceitual, determina que as transações sejam contabilizadas:",o:["Considerando sua substância econômica, ainda que a forma jurídica sugira tratamento diverso","Exclusivamente com base no contrato jurídico firmado entre as partes","Somente após o registro em cartório do respectivo instrumento","De acordo com a forma que resultar em menor carga tributária"],e:"A representação fidedigna exige que as transações sejam refletidas conforme sua substância e realidade econômica, e não apenas sua forma legal."},
+{d:"Auditoria Contábil",q:"O planejamento da auditoria, segundo a NBC TA 300, deve ser revisado e atualizado:",o:["Ao longo de toda a auditoria, sempre que eventos inesperados exigirem ajustes na estratégia ou no plano","Somente uma vez, no início dos trabalhos, sem possibilidade de alteração","Apenas se solicitado formalmente pela administração da entidade auditada","Exclusivamente após a emissão do relatório do auditor"],e:"O planejamento é um processo contínuo e iterativo; a NBC TA 300 prevê sua atualização sempre que surgirem circunstâncias inesperadas durante a auditoria."},
+{d:"Contabilidade Geral",q:"Em uma reorganização societária por cisão parcial, a sociedade cindida que subsiste:",o:["Tem seu patrimônio líquido reduzido na proporção da parcela vertida para a sociedade que a absorve ou para a nova sociedade","Extingue-se automaticamente, transferindo todo o patrimônio","Mantém o patrimônio líquido inalterado, pois a cisão não afeta o PL","Deve necessariamente incorporar a sociedade beneficiária da cisão"],e:"Na cisão parcial, a sociedade cindida sobrevive com patrimônio reduzido, na proporção da parcela do patrimônio vertida à(s) sociedade(s) beneficiária(s)."},
+{d:"Controladoria",q:"O EBITDA (LAJIDA) representa o resultado operacional:",o:["Antes de juros, impostos sobre o lucro, depreciação e amortização","Após todas as despesas financeiras e tributárias","Líquido de todas as depreciações, mas antes dos impostos","Apenas das atividades financeiras da empresa"],e:"EBITDA/LAJIDA mede a geração operacional de caixa, excluindo efeitos financeiros, tributários e de depreciação/amortização, que não representam desembolso no período."},
+{d:"Princípios e NBCs",q:"Segundo o CPC 04, um ativo intangível gerado internamente, como uma marca desenvolvida pela própria entidade, deve ser:",o:["Não reconhecido como ativo, sendo os gastos lançados como despesa quando incorridos","Reconhecido pelo valor justo estimado por especialistas independentes","Capitalizado integralmente na fase de pesquisa","Amortizado ao longo de prazo indefinido, sem teste de recuperabilidade"],e:"O CPC 04 veda o reconhecimento de marcas, títulos de publicação, listas de clientes e itens similares gerados internamente, pois não é possível distingui-los do custo de desenvolver o negócio como um todo."},
+{d:"Noções de Direito",q:"Segundo a Constituição Federal, compete privativamente à União instituir, entre outros, o imposto sobre:",o:["Renda e proventos de qualquer natureza","Propriedade predial e territorial urbana","Transmissão causa mortis e doação","Circulação de mercadorias e prestação de serviços de transporte e comunicação"],e:"O Imposto de Renda é de competência da União (art. 153, III, CF). IPTU é municipal; ITCMD é estadual; ICMS é estadual."},
+{d:"Contabilidade de Custos",q:"Em um departamento de serviços auxiliares (como manutenção) que presta serviço a departamentos produtivos, o método de rateio que reconhece as prestações de serviços recíprocas entre departamentos de apoio é o método:",o:["Recíproco (algébrico)","Direto","Sequencial (em cascata)","De centro de custos único"],e:"O método direto ignora prestações entre departamentos de apoio; o sequencial as reconhece parcialmente; o método recíproco (algébrico) resolve simultaneamente todas as relações recíprocas."},
+{d:"Contabilidade Geral",q:"Uma empresa optou por reavaliar seu imobilizado (hipótese excepcional e vedada pela legislação societária atual, exceto em casos específicos). Ainda assim, caso o CPC 27 permitisse o modelo de reavaliação, o aumento no valor contábil de um ativo, decorrente de reavaliação, seria registrado:",o:["Em conta de outros resultados abrangentes no Patrimônio Líquido, salvo se revertesse uma perda anteriormente reconhecida no resultado","Diretamente no resultado do exercício, como receita não operacional","Em conta de passivo, como obrigação futura de distribuição de lucros","Em conta redutora do ativo circulante"],e:"O aumento de reavaliação vai a outros resultados abrangentes (reserva de reavaliação), exceto na medida em que reverte uma diminuição de valor do mesmo ativo anteriormente reconhecida no resultado."},
+{d:"Perícia Contábil",q:"O perito judicial contábil, ao constatar que os quesitos formulados extrapolam sua área de conhecimento técnico contábil, deve:",o:["Informar ao juízo sua limitação técnica, podendo ser indicado perito de outra especialidade para complementar a perícia","Responder aos quesitos com base em achismo, para não atrasar o processo","Recusar-se a assinar o laudo, sem qualquer comunicação ao juízo","Delegar automaticamente a resposta ao assistente técnico da parte contrária"],e:"O perito deve limitar-se à sua área de conhecimento e comunicar ao juízo quando um quesito exigir conhecimento técnico diverso, permitindo a nomeação de perito complementar se necessário."},
+{d:"Contabilidade Gerencial",q:"O Custo Médio Ponderado de Capital (WACC) é utilizado, entre outras finalidades, para:",o:["Descontar fluxos de caixa futuros na avaliação de investimentos e calcular o EVA","Determinar exclusivamente a taxa de depreciação de ativos imobilizados","Calcular o ponto de equilíbrio contábil de um produto","Apurar o custo padrão de mão de obra direta"],e:"O WACC reflete o custo de capital próprio e de terceiros ponderado pelas respectivas participações na estrutura de capital, sendo usado como taxa de desconto e no cálculo do EVA."},
+{d:"Contabilidade Aplicada ao Setor Público",q:"O Balanço Orçamentário, na Lei nº 4.320/1964, confronta:",o:["As receitas e despesas orçamentárias previstas com as realizadas no exercício","O ativo e o passivo financeiro e permanente da entidade","As variações patrimoniais aumentativas e diminutivas do período","Os saldos de restos a pagar processados e não processados"],e:"O Balanço Orçamentário evidencia as receitas e despesas previstas (orçadas) em confronto com as realizadas, apurando o superávit ou déficit orçamentário."},
+{d:"Contabilidade Geral",q:"Uma companhia possui dois segmentos operacionais distintos que se enquadram nos critérios quantitativos do CPC 22. A divulgação por segmentos deve seguir a abordagem:",o:["Gerencial, refletindo como a administração organiza internamente a entidade para tomada de decisão","Estritamente contábil-fiscal, conforme a legislação tributária","Exclusivamente geográfica, ignorando linhas de produto","Facultativa, a critério da administração, mesmo atingindo os limites quantitativos"],e:"O CPC 22 adota a 'management approach': os segmentos reportáveis refletem a estrutura interna de gestão e reporte usada pelo principal tomador de decisões operacionais."},
+{d:"Auditoria Contábil",q:"Ao auditar estimativas contábeis, como a provisão para perdas em créditos, a NBC TA 540 recomenda ao auditor:",o:["Avaliar o grau de incerteza da estimativa e testar os dados e premissas usados pela administração","Aceitar a estimativa sem questionamento, por se tratar de julgamento da administração","Recalcular a estimativa apenas se o valor for imaterial","Desconsiderar estimativas contábeis do escopo da auditoria"],e:"Estimativas contábeis exigem avaliação do grau de incerteza de mensuração e testes sobre premissas e dados usados pela administração, dado o maior risco de distorção envolvido."},
+{d:"Legislação e Ética Profissional",q:"O anúncio de serviços profissionais pelo contador, conforme as normas do CFC, deve:",o:["Ser feito com discrição e moderação, sem caracterizar concorrência desleal ou autopromoção excessiva","Conter garantias de resultado, como redução certa de tributos devidos","Utilizar comparações depreciativas com outros profissionais da contabilidade","Omitir o número de registro no CRC, para preservar a privacidade"],e:"As normas de ética vedam autopromoção excessiva, garantias de resultado e comparações depreciativas com colegas; o registro no CRC deve constar dos anúncios."},
+{d:"Contabilidade Geral",q:"Uma sociedade anônima aumentou seu capital social mediante capitalização de reservas de lucros. Esse aumento, sem novos aportes:",o:["Não altera o total do Patrimônio Líquido, apenas sua composição interna","Aumenta o Patrimônio Líquido total da companhia","Gera receita a ser reconhecida no resultado do exercício","Reduz o Patrimônio Líquido total da companhia"],e:"A capitalização de reservas apenas transfere valores dentro do PL (de reservas para capital social), sem alterar o total do Patrimônio Líquido."},
+{d:"Matemática Financeira e Estatística",q:"Em uma distribuição de frequências, quando a média, a mediana e a moda coincidem no mesmo valor, a distribuição é classificada como:",o:["Simétrica","Assimétrica positiva","Assimétrica negativa","Bimodal"],e:"Na distribuição simétrica, as três medidas de tendência central coincidem; assimetrias positivas ou negativas deslocam essas medidas entre si."},
+{d:"Contabilidade de Custos",q:"O custo de matéria-prima consumida em um período é calculado por:",o:["Estoque inicial de matéria-prima mais compras, menos estoque final de matéria-prima","Estoque final de matéria-prima menos compras do período","Compras do período, sem considerar estoques inicial e final","Estoque inicial de produtos acabados mais compras de matéria-prima"],e:"MP consumida = Estoque inicial de MP + Compras de MP − Estoque final de MP, seguindo a mesma lógica do CMV para mercadorias."},
+{d:"Princípios e NBCs",q:"Pelo CPC 46, o valor justo é definido, em síntese, como:",o:["O preço que seria recebido pela venda de um ativo ou pago pela transferência de um passivo em uma transação não forçada entre participantes do mercado, na data de mensuração","O custo histórico de aquisição do ativo, ajustado pela inflação do período","O valor contábil líquido registrado nas demonstrações contábeis","O valor de liquidação forçada em caso de encerramento das atividades"],e:"O CPC 46 define valor justo como o preço de saída (exit price) em uma transação ordenada entre participantes do mercado na data de mensuração, e não em uma venda forçada."},
+{d:"Contabilidade Aplicada ao Setor Público",q:"Os créditos adicionais suplementares, previstos na Lei nº 4.320/1964, destinam-se a:",o:["Reforçar dotação orçamentária já existente e insuficiente","Atender despesas urgentes e imprevisíveis, sem dotação específica no orçamento","Cobrir despesas de exercícios financeiros já encerrados","Substituir integralmente a Lei Orçamentária Anual vigente"],e:"Créditos suplementares reforçam dotações já existentes; créditos especiais atendem despesas sem dotação específica; créditos extraordinários cobrem despesas urgentes e imprevisíveis (guerra, calamidade)."},
+{d:"Contabilidade Geral",q:"Em uma operação de securitização de recebíveis com transferência substancial dos riscos e benefícios ao cessionário, o cedente deve, conforme o CPC 48:",o:["Baixar os recebíveis do ativo e reconhecer o resultado da operação","Manter os recebíveis integralmente no ativo, apenas divulgando a operação em nota explicativa","Registrar os recursos recebidos como passivo financeiro, mantendo o ativo original","Reconhecer os recebíveis cedidos como ativo contingente"],e:"Havendo transferência substancial dos riscos e benefícios, o CPC 48 determina a baixa do ativo financeiro cedido (desreconhecimento), com reconhecimento do resultado correspondente."},
+{d:"Controladoria",q:"O Custeio Meta (Target Costing) caracteriza-se por definir o custo máximo admissível de um produto a partir de:",o:["Preço de venda praticável no mercado menos a margem de lucro desejada","Soma de todos os custos de produção mais uma margem fixa de lucro","Custo histórico médio dos últimos exercícios, sem ajustes","Preço de venda da concorrência, ignorando a margem de lucro própria"],e:"No custeio meta, parte-se do preço que o mercado aceita pagar, subtrai-se a margem de lucro desejada, e o resultado é o custo-alvo que orienta o desenvolvimento do produto."},
+{d:"Legislação e Ética Profissional",q:"A publicidade e a propaganda de serviços contábeis, quando permitidas pelas normas do CFC, não podem, entre outras vedações:",o:["Induzir o público a erro quanto à capacidade técnica ou aos resultados que serão obtidos","Mencionar a razão social e o número de registro no CRC do profissional ou da organização contábil","Informar o horário de atendimento ao público","Indicar os serviços contábeis efetivamente prestados pela organização"],e:"É vedado induzir o público a erro sobre capacidade técnica ou garantir resultados; informações objetivas como razão social, registro, horário e serviços prestados são, em regra, admitidas."},
+{d:"Contabilidade Geral",q:"Uma entidade classificada como pequena ou média empresa (PME), conforme o CPC PME, pode optar por não aplicar determinadas exigências dos CPCs completos, desde que:",o:["Não tenha obrigação pública de prestação de contas e elabore demonstrações contábeis para uso de usuários externos","Seja companhia aberta com ações negociadas em bolsa de valores","Seja instituição financeira regulada pelo Banco Central","Tenha faturamento anual superior a R$ 500 milhões, independentemente do setor"],e:"O CPC PME aplica-se a entidades sem obrigação pública de prestação de contas (não têm instrumentos negociados publicamente nem atuam como instituições financeiras/fiduciárias) que publicam demonstrações para usuários externos."},
+{d:"Auditoria Contábil",q:"A independência do auditor em relação à entidade auditada é um princípio fundamental tratado, no âmbito das normas éticas, principalmente:",o:["Pelo Código de Ética Profissional do Contador e pelas normas específicas de independência do CFC","Apenas pela legislação societária, sem previsão em normas éticas","Exclusivamente por acordo contratual entre auditor e cliente","Pela Comissão de Valores Mobiliários, apenas para empresas não listadas"],e:"A independência é tratada nas normas de ética profissional e nas normas específicas de independência do auditor, sendo condição essencial para a credibilidade da opinião emitida."},
+{d:"Perícia Contábil",q:"No processo civil, a perícia contábil pode ser dispensada pelo juiz quando:",o:["As partes, na inicial e na contestação, apresentarem, sobre as questões de fato, pareceres técnicos ou documentos elucidativos que considerar suficientes","Uma das partes simplesmente discordar dos valores apontados pela outra","O valor da causa for inferior a determinado limite legal, em qualquer hipótese","O juiz entender que o processo já está demorando demais, independentemente de outros elementos"],e:"O art. 472 do CPC permite a dispensa da prova pericial quando as partes apresentarem, na inicial e contestação, pareceres técnicos ou documentos suficientes sobre as questões de fato."},
+{d:"Contabilidade Geral",q:"O valor recuperável de um ativo, segundo o CPC 01, corresponde ao maior valor entre:",o:["O valor justo líquido de despesas de venda e o valor em uso","O custo histórico e o valor de mercado","O valor contábil líquido e o valor residual estimado","O valor justo bruto e o custo de reposição"],e:"O valor recuperável é o maior entre o valor justo menos despesas de venda e o valor em uso (valor presente dos fluxos de caixa futuros esperados do ativo)."},
+{d:"Noções de Direito",q:"A responsabilidade civil do contador por danos causados a terceiros no exercício da profissão, em regra, exige a comprovação de:",o:["Conduta culposa ou dolosa, nexo causal e dano efetivo","Apenas a existência de contrato de prestação de serviços, independentemente de dano","Registro ativo no CRC, sem necessidade de comprovar dano ou culpa","Decisão judicial transitada em julgado em ação penal correlata"],e:"A responsabilidade civil subjetiva do profissional liberal exige a comprovação da conduta (culpa ou dolo), do nexo de causalidade e do dano efetivamente sofrido."},
+{d:"Matemática Financeira e Estatística",q:"Um investimento inicial de R$ 50.000,00 gera fluxos de caixa anuais de R$ 20.000,00 por 3 anos, com taxa mínima de atratividade de 10% a.a. Sem calcular precisamente o VPL, pode-se afirmar que a análise adequada para decidir sobre o investimento deve comparar:",o:["O valor presente dos fluxos futuros descontados à TMA com o investimento inicial","Apenas a soma nominal dos fluxos futuros com o investimento inicial, sem desconto","O valor futuro dos fluxos, sem qualquer taxa de desconto","O prazo de retorno contábil, ignorando o valor do dinheiro no tempo"],e:"O método do Valor Presente Líquido (VPL) exige descontar os fluxos futuros à taxa mínima de atratividade e compará-los ao investimento inicial, considerando o valor do dinheiro no tempo."},
+{d:"Contabilidade de Custos",q:"Em uma empresa de serviços que apura custos por ordem de produção (ordem de serviço), o custo de cada projeto é acumulado:",o:["Individualmente, por ordem específica, à medida que os recursos são consumidos no projeto","De forma agregada para toda a empresa, sem segregação por projeto","Somente ao final do exercício social, por rateio linear entre os projetos","Exclusivamente com base em custos padrão, sem custos reais"],e:"No custeio por ordem de produção/serviço, os custos são acumulados individualmente para cada ordem ou projeto específico, permitindo apurar o custo e a margem de cada um."},
+{d:"Contabilidade Geral",q:"Uma subvenção governamental para investimento, condicionada à aplicação em ativos específicos, deve ser reconhecida, conforme o CPC 07:",o:["No resultado, ao longo dos períodos em que forem reconhecidas as despesas relacionadas (como depreciação) que a subvenção pretende compensar","Integralmente como receita no momento do recebimento dos recursos","Diretamente em reserva de capital, sem transitar pelo resultado em qualquer momento","Como redução do passivo exigível a longo prazo, sem efeito no resultado"],e:"O CPC 07 determina o reconhecimento da subvenção como receita ao longo dos períodos e na proporção em que as despesas relacionadas (por exemplo, depreciação do ativo subvencionado) são incorridas, respeitando a confrontação com as despesas correspondentes."},
+{d:"Contabilidade Gerencial",q:"O Retorno sobre o Patrimônio Líquido (ROE) tende a ser maior que o Retorno sobre o Ativo (ROA) quando a empresa apresenta:",o:["Alavancagem financeira favorável, com custo da dívida inferior ao retorno gerado pelos ativos","Endividamento nulo, financiando-se exclusivamente com capital próprio","Prejuízo líquido no exercício, independentemente da estrutura de capital","Ativo total superior ao patrimônio líquido apenas por efeito cambial"],e:"Quando o retorno gerado pelos ativos supera o custo da dívida, o uso de capital de terceiros (alavancagem financeira) eleva o retorno sobre o patrimônio líquido dos sócios acima do ROA."},
+{d:"Contabilidade Aplicada ao Setor Público",q:"Segundo a Lei de Responsabilidade Fiscal, a Receita Corrente Líquida (RCL) é utilizada, entre outras finalidades, como parâmetro para:",o:["Limitar despesas com pessoal do ente federativo","Definir exclusivamente o valor do salário mínimo nacional","Calcular o valor do Fundo de Participação dos Municípios","Fixar alíquotas de impostos estaduais sobre circulação de mercadorias"],e:"A RCL é a base de cálculo para diversos limites da LRF, entre eles o limite de gastos com pessoal (arts. 19 e 20) e o limite de endividamento dos entes federativos."},
+{d:"Contabilidade Geral",q:"Uma empresa possui um contrato de construção de longo prazo cuja obrigação de desempenho é satisfeita ao longo do tempo, conforme o CPC 47. A receita deve ser reconhecida:",o:["Progressivamente, com base na medição do estágio de conclusão (percentual completado) da obra","Integralmente, apenas na entrega final da obra ao cliente","No momento do recebimento de cada parcela do contrato, independentemente da execução física","Somente após o trânsito em julgado de eventual disputa contratual"],e:"Quando a obrigação de desempenho é satisfeita ao longo do tempo, a receita é reconhecida progressivamente, com base em métodos de mensuração do progresso, como o percentual de conclusão (CPC 47)."},
+{d:"Legislação e Ética Profissional",q:"Compete aos Conselhos Regionais de Contabilidade (CRCs), entre outras atribuições previstas no Decreto-Lei nº 9.295/1946:",o:["Organizar e manter o registro dos profissionais e das organizações contábeis em sua jurisdição","Editar normas brasileiras de contabilidade de aplicação nacional","Substituir o CFC na regulamentação da profissão em todo o território nacional","Fiscalizar exclusivamente tributos federais relacionados à atividade contábil"],e:"Os CRCs organizam e mantêm o registro profissional em sua jurisdição e fiscalizam o exercício da profissão localmente, enquanto o CFC edita normas de âmbito nacional."},
+{d:"Contabilidade Geral",q:"Na elaboração da Demonstração do Valor Adicionado (DVA), o valor adicionado a distribuir corresponde, em síntese, à riqueza criada pela entidade destinada a:",o:["Pessoal, governo, financiadores de capital de terceiros e acionistas (remuneração de capital próprio)","Somente ao pagamento de tributos federais, estaduais e municipais","Exclusivamente à distribuição de dividendos aos acionistas","Apenas à remuneração do capital de terceiros (juros e aluguéis)"],e:"A DVA evidencia a riqueza gerada pela entidade e sua distribuição entre pessoal, governo (tributos), financiadores de capital de terceiros e remuneração de capital próprio (retenção e dividendos)."},
+{d:"Auditoria Contábil",q:"Ao utilizar o trabalho de um especialista contratado pela entidade auditada (como um avaliador de imóveis), o auditor, segundo a NBC TA 500 (complementada pela NBC TA 620), deve:",o:["Avaliar a competência, capacidade e objetividade desse especialista e a adequação de seu trabalho para os fins da auditoria","Aceitar automaticamente as conclusões do especialista, sem qualquer avaliação adicional","Desconsiderar totalmente o trabalho de especialistas externos à equipe de auditoria","Assumir pessoalmente a elaboração do laudo técnico, dispensando o especialista"],e:"O auditor deve avaliar a competência, capacidade e objetividade do especialista da administração e a adequação de seu trabalho, antes de utilizá-lo como evidência de auditoria."},
+{d:"Contabilidade de Custos",q:"A diferença entre o custo padrão de mão de obra direta e o custo real, decorrente exclusivamente da variação na taxa salarial paga (e não na quantidade de horas trabalhadas), é chamada de variação de:",o:["Preço (ou taxa) de mão de obra direta","Quantidade (ou eficiência) de mão de obra direta","Volume de produção","Custos indiretos de fabricação"],e:"A variação de preço/taxa isola o efeito da diferença entre a taxa salarial real e a padrão, mantendo constante a quantidade de horas; a variação de quantidade isola o efeito das horas trabalhadas."},
+{d:"Contabilidade Geral",q:"Uma empresa mantém aplicação financeira classificada como equivalente de caixa, conforme o CPC 03. Para essa classificação, é necessário que o investimento:",o:["Tenha conversibilidade imediata em montante conhecido de caixa e esteja sujeito a insignificante risco de mudança de valor","Tenha vencimento superior a 12 meses da data da aplicação","Esteja vinculado a garantias de operações de longo prazo, sem liquidez imediata","Seja obrigatoriamente representado por ações negociadas em bolsa de valores"],e:"Equivalentes de caixa são investimentos de curtíssimo prazo, de alta liquidez, prontamente conversíveis em quantia conhecida de caixa e com insignificante risco de mudança de valor (CPC 03)."},
+{d:"Noções de Direito",q:"Pela legislação do Simples Nacional, o enquadramento nesse regime tributário simplificado é vedado, entre outras hipóteses, a empresas que:",o:["Tenham sócio domiciliado no exterior ou participação de pessoa jurídica em seu capital social","Atuem exclusivamente no comércio varejista de pequeno porte","Possuam menos de dez empregados registrados","Estejam localizadas em municípios com menos de 50 mil habitantes"],e:"A Lei Complementar nº 123/2006 veda o Simples Nacional a empresas com sócio domiciliado no exterior, participação de pessoa jurídica em seu capital, entre outras restrições específicas."},
+{d:"Contabilidade Aplicada ao Setor Público",q:"O regime de competência aplicado às despesas orçamentárias, no âmbito da execução prevista na Lei nº 4.320/1964, considera a despesa realizada no momento:",o:["Do empenho, ainda que o pagamento ocorra em exercício posterior","Exclusivamente do efetivo desembolso financeiro (pagamento)","Da liquidação, desconsiderando o momento do empenho","Da inclusão da dotação na Lei Orçamentária Anual"],e:"Pelo regime orçamentário misto da Lei nº 4.320/1964, a despesa é considerada realizada (pertence ao exercício) no momento do empenho, mesmo que o pagamento só ocorra depois."},
+{d:"Contabilidade Geral",q:"Uma empresa apresenta, no encerramento do exercício, saldo de Lucros Acumulados a distribuir, sem destinação específica deliberada em assembleia. Segundo a Lei das S.A., essa situação:",o:["É vedada às companhias, que devem dar destinação específica ao lucro do exercício, respeitados os limites legais e estatutários","É permitida sem qualquer limitação, podendo o saldo permanecer indefinidamente na conta","Só é vedada às companhias abertas, sendo livre às companhias fechadas","Depende exclusivamente de autorização da Receita Federal para permanecer sem destinação"],e:"A Lei nº 6.404/1976 veda a manutenção de lucros sem destinação específica, exigindo sua distribuição, retenção justificada ou constituição de reservas previstas em lei ou estatuto."},
+{d:"Perícia Contábil",q:"Na perícia contábil extrajudicial (arbitral ou consensual), diferentemente da perícia judicial, a nomeação do perito geralmente decorre de:",o:["Escolha das partes ou indicação prevista em cláusula compromissória ou convenção de arbitragem","Sorteio obrigatório realizado pelo Tribunal de Justiça","Distribuição automática pelo sistema do CRC da jurisdição","Determinação unilateral de uma das partes, sem participação da outra"],e:"Na arbitragem e em perícias extrajudiciais consensuais, o perito costuma ser escolhido pelas partes ou conforme regras definidas na convenção de arbitragem, e não por distribuição judicial."},
+{d:"Língua Portuguesa",q:"Assinale a alternativa em que a regência verbal está de acordo com a norma-padrão da língua portuguesa:",o:["O auditor assistiu à apresentação dos resultados financeiros.","O auditor assistiu a apresentação dos resultados financeiros, sem crase.","O auditor assistiu na apresentação dos resultados financeiros.","O auditor assistiu com a apresentação dos resultados financeiros."],e:"No sentido de 'presenciar', o verbo 'assistir' rege a preposição 'a': 'assistiu à apresentação' (com crase, pois 'apresentação' é substantivo feminino regido por 'a')."}
+];
+
+const LETRAS = ["A","B","C","D"];
+const KEY = "cfc-flash-v3-2026";
+let st = {ordem:[...Q.keys()], i:0, resp:{}, filtro:"Todas", ops:{}};
+try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.ordem) st = Object.assign(st,s); }catch(e){}
+const salvar = ()=>{ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
+
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+Q.forEach((_,k)=>{ if(!st.ops[k]) st.ops[k]=shuffle([0,1,2,3]); });
+
+const $ = id => document.getElementById(id);
+const disc = ["Todas", ...new Set(Q.map(q=>q.d))];
+$("filtro").innerHTML = disc.map(d=>`<option${d===st.filtro?" selected":""}>${d}</option>`).join("");
+
+let modoErradas = false;
+function lista(){
+  let l = st.ordem.filter(k => st.filtro==="Todas" || Q[k].d===st.filtro);
+  if(modoErradas) l = l.filter(k => st.resp[k]!==undefined && st.resp[k]!==0);
+  return l;
+}
+
+function render(){
+  const l = lista();
+  if(st.i >= l.length) st.i = Math.max(0,l.length-1);
+  const total = l.length;
+  const resp = l.filter(k=>st.resp[k]!==undefined);
+  const acertos = resp.filter(k=>st.resp[k]===0).length;
+  $("pos").textContent = total ? `Questão ${st.i+1} de ${total}` : "Nenhuma questão";
+  $("placar").textContent = `${acertos} acertos · ${resp.length-acertos} erros`;
+  $("barra").style.width = total ? (resp.length/total*100)+"%" : "0";
+  $("erradas").textContent = modoErradas ? "Ver todas" : "Revisar erradas";
+  $("ant").disabled = st.i===0;
+  $("prox").disabled = !total || st.i>=total-1;
+
+  if(!total){
+    $("area").innerHTML = `<div class="card done"><p class="big">✓</p><p>${modoErradas?"Nenhuma questão errada neste filtro.":"Sem questões neste filtro."}</p></div>`;
+    return;
+  }
+  const k = l[st.i], q = Q[k], r = st.resp[k];
+  const opts = st.ops[k].map((oi,pos)=>{
+    let cls = "";
+    if(r!==undefined){ if(oi===0) cls="right"; else if(oi===r) cls="wrong"; }
+    return `<button class="opt ${cls}" data-o="${oi}" ${r!==undefined?"disabled":""}><b>${LETRAS[pos]}</b><span>${q.o[oi]}</span></button>`;
+  }).join("");
+  const certa = LETRAS[st.ops[k].indexOf(0)];
+  $("area").innerHTML = `<article class="card">
+    <span class="tag">${q.d}</span>
+    <p class="q">${q.q}</p>
+    <div class="opts">${opts}</div>
+    <div class="exp ${r!==undefined?"show":""}"><strong>${r===0?"Correto!":"Resposta: letra "+certa}</strong>${q.e}</div>
+  </article>`;
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ st.resp[k]=+b.dataset.o; salvar(); render(); });
+}
+
+$("filtro").onchange = e => { st.filtro=e.target.value; st.i=0; salvar(); render(); };
+$("ant").onclick = () => { st.i--; salvar(); render(); window.scrollTo({top:0}); };
+$("prox").onclick = () => { st.i++; salvar(); render(); window.scrollTo({top:0}); };
+$("embaralhar").onclick = () => { st.ordem=shuffle(st.ordem); Q.forEach((_,k)=>st.ops[k]=shuffle([0,1,2,3])); st.i=0; salvar(); render(); };
+$("erradas").onclick = () => { modoErradas=!modoErradas; st.i=0; render(); };
+$("zerar").onclick = () => { if(confirm("Apagar todas as respostas?")){ st.resp={}; st.i=0; modoErradas=false; salvar(); render(); } };
+document.addEventListener("keydown", e=>{
+  if(e.target.tagName==="SELECT") return;
+  if(e.key==="ArrowRight" && !$("prox").disabled) $("prox").click();
+  if(e.key==="ArrowLeft" && !$("ant").disabled) $("ant").click();
+  const n = "abcd".indexOf(e.key.toLowerCase());
+  if(n>=0){ const b=document.querySelectorAll(".opt")[n]; if(b && !b.disabled) b.click(); }
+});
+salvar(); render();
+</script>
+</body>
+</html>
